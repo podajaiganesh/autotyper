@@ -36,7 +36,7 @@ def type_line(line):
                 chunk += line[i]
                 i += 1
             if chunk:
-                pyautogui.write(chunk, interval=0.01)
+                pyautogui.write(chunk, interval=0.005)
 
 def start_typing():
     def type_text():
@@ -56,11 +56,11 @@ def start_typing():
                 pyautogui.hotkey('home')          # go to line start
                 pyautogui.hotkey('shift', 'end')  # select to line end
                 pyautogui.press('backspace')       # delete selected auto-indent
-                time.sleep(0.01)
+                time.sleep(0.005)
                 type_line(line)
                 if i < len(lines) - 1:
                     pyautogui.press('enter')
-                    time.sleep(0.04)
+                    time.sleep(0.02)
 
             status_label.config(text="✅ Typing complete!", fg="#4CAF50")
         except Exception as e:

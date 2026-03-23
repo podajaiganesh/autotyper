@@ -1,89 +1,110 @@
 # AutoTyper ⌨️
 
-A macOS desktop app that automatically types out the contents of your clipboard into any application — useful for environments that block paste (VMs, remote desktops, restricted terminals, etc).
+A cross-platform desktop app that automatically types out the contents of your clipboard into any application — useful for environments that block paste (VMs, remote desktops, restricted terminals, etc).
+
+Works on **macOS** and **Windows**.
 
 ---
 
 ## Requirements
 
-- macOS
 - Python 3.11+
+- pip (comes with Python)
 
 ---
 
 ## Installation
 
-### 1. Clone or Download the project
+### macOS
 
+**1. Clone or download the project**
 ```bash
-git clone https://github.com/your-username/autotyper.git
+git clone https://github.com/podajaiganesh/autotyper.git
 cd autotyper
 ```
 
-### 2. Create a virtual environment
-
+**2. Create and activate a virtual environment**
 ```bash
 python3 -m venv venv
-```
-
-### 3. Activate the virtual environment
-
-```bash
 source venv/bin/activate
 ```
 
-### 4. Install dependencies
-
+**3. Install dependencies**
 ```bash
 pip install pyperclip pyautogui
 ```
 
----
-
-## Running the App
-
-### Option A — Run as Python script
-
+**4. Run the app**
 ```bash
-source venv/bin/activate
 python3 gui_typer.py
 ```
 
-### Option B — Run as macOS App (no terminal needed)
+---
 
-A pre-built `.app` is available in the `dist/` folder:
+### Windows
 
+**1. Install Python**
+- Download Python 3.11+ from https://www.python.org/downloads/
+- During installation, check **"Add Python to PATH"**
+
+**2. Clone or download the project**
+```bash
+git clone https://github.com/podajaiganesh/autotyper.git
+cd autotyper
 ```
-dist/AutoTyper.app
+
+Or download the ZIP from GitHub and extract it.
+
+**3. Create and activate a virtual environment**
+```cmd
+python -m venv venv
+venv\Scripts\activate
 ```
 
-Just double-click `AutoTyper.app` to launch it.
+**4. Install dependencies**
+```cmd
+pip install pyperclip pyautogui
+```
 
-> If macOS blocks it, go to **System Settings → Privacy & Security** and click **"Open Anyway"**.
-
-To install it permanently, drag `AutoTyper.app` to your **Applications** folder.
+**5. Run the app**
+```cmd
+python gui_typer.py
+```
 
 ---
 
 ## How to Use
 
-1. **Copy** the text you want to type (Cmd + C)
+1. **Copy** the text you want to type (`Cmd+C` on Mac / `Ctrl+C` on Windows)
 2. **Open** AutoTyper and click **"Start Typing"**
 3. **Switch** to the target window within **3 seconds**
 4. The app will automatically type out your clipboard line by line
 
 ---
 
-## Building the macOS App Yourself
+## Building a Standalone App (No Terminal Needed)
 
-Make sure you have the venv activated, then run:
+### macOS — Build as .app
 
 ```bash
+source venv/bin/activate
 pip install pyinstaller
 pyinstaller --name="AutoTyper" --windowed -y gui_typer.py
 ```
 
-The built app will be at `dist/AutoTyper.app`.
+The app will be at `dist/AutoTyper.app`. Double-click to run it.
+
+> If macOS blocks it: **System Settings → Privacy & Security → Open Anyway**
+
+### Windows — Build as .exe
+
+```cmd
+venv\Scripts\activate
+pip install pyinstaller
+pyinstaller --name="AutoTyper" --windowed --onefile gui_typer.py
+```
+
+The executable will be at `dist\AutoTyper.exe`. Double-click to run it.
 
 ---
 
@@ -91,29 +112,48 @@ The built app will be at `dist/AutoTyper.app`.
 
 ```
 autotyper/
-├── gui_typer.py       # Main GUI application
+├── gui_typer.py       # Main GUI application (cross-platform)
 ├── auto_typer.py      # Standalone CLI script (no GUI)
-├── setup.py           # py2app build config
+├── setup.py           # py2app build config (macOS)
 ├── AutoTyper.spec     # PyInstaller build spec
 ├── README.md
-├── venv/              # Virtual environment
+├── venv/              # Virtual environment (not committed)
 ├── build/             # PyInstaller build files
 └── dist/
-    └── AutoTyper.app  # Built macOS app
+    ├── AutoTyper.app  # Built macOS app
+    └── AutoTyper.exe  # Built Windows executable
 ```
 
 ---
 
 ## Troubleshooting
 
-**App won't open on macOS**
-> Go to System Settings → Privacy & Security → click "Open Anyway"
+### macOS
+
+**App won't open**
+> System Settings → Privacy & Security → click "Open Anyway"
 
 **Accessibility permission error**
-> Go to System Settings → Privacy & Security → Accessibility → enable AutoTyper
+> System Settings → Privacy & Security → Accessibility → enable AutoTyper
 
 **`python` command not found**
-> Use `python3` instead. macOS uses `python3` by default.
+> Use `python3` instead
+
+### Windows
+
+**`python` is not recognized**
+> Reinstall Python and make sure to check **"Add Python to PATH"** during setup
+
+**`pip` is not recognized**
+> Run `python -m pip install pyperclip pyautogui` instead
+
+**Text not pasting into target window**
+> Some apps block `Ctrl+V`. Try a different target app or run AutoTyper as Administrator
+
+**Antivirus blocks the .exe**
+> This is a false positive. Add an exception for `AutoTyper.exe` in your antivirus settings
+
+### Both Platforms
 
 **Text not typing correctly**
-> Make sure you switch to the target window quickly within the 3-second countdown.
+> Switch to the target window quickly within the 3-second countdown

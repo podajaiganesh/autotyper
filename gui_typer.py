@@ -4,6 +4,21 @@ import pyperclip
 import pyautogui
 import time
 import threading
+import platform
+
+def type_line(line):
+    """Cross-platform line typing using clipboard paste for special characters."""
+    stripped = line.lstrip(' \t')
+    if not stripped:
+        pyautogui.press('enter')
+        return
+    pyperclip.copy(stripped)
+    if platform.system() == 'Darwin':
+        pyautogui.hotkey('command', 'v')
+    else:
+        pyautogui.hotkey('ctrl', 'v')
+    time.sleep(0.05)
+    pyautogui.press('enter')
 
 def start_typing():
     def type_text():
@@ -11,19 +26,17 @@ def start_typing():
             status_label.config(text="⏳ Switch to target window... (3 seconds)", fg="#FF9800")
             window.update()
             time.sleep(3)
-            
+
             text = pyperclip.paste()
             lines = text.splitlines()
-            
+
             for line in lines:
-                stripped_line = line.lstrip(' \t')
-                pyautogui.write(stripped_line, interval=0)
-                pyautogui.press('enter')
-            
+                type_line(line)
+
             status_label.config(text="✅ Typing complete!", fg="#4CAF50")
         except Exception as e:
             status_label.config(text=f"❌ Error: {e}", fg="#F44336")
-    
+
     threading.Thread(target=type_text, daemon=True).start()
 
 window = tk.Tk()
